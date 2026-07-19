@@ -6,6 +6,11 @@ import threading
 import os
 import subprocess
 
+disk = 0
+try:
+    disk = open("s")
+except:
+    disk = open("s", "x")
 
 ds = 100
 
@@ -31,7 +36,12 @@ oldmx = "s"
 oldmy = "s"
 oldcol = [0, 0, 0]
 
-wallpaper = "bliss.png"
+temp = disk.readlines()
+if len(temp[0]) > 0:
+    wallpaper = temp[0]
+    print(wallpaper)
+else:
+    wallpaper = "bliss.png"
 
 col = w
 
@@ -70,7 +80,12 @@ def BootUp():
         delay = delay / 1.5
 
 def ShowWallpaper():
-    img = Image.open(wallpaper)
+    img = 0
+    try:
+        wallpaper2 = wallpaper.replace('\n', '').replace('\r', '')
+        img = Image.open(str(wallpaper2))
+    except:
+        img = Image.open("bliss.png")
     res = img.resize((8, 8))
     resBG = res.convert('RGB')
     px = resBG.load()
@@ -95,6 +110,7 @@ def drawTaskbar():
                 oldcol = b
 
 def BackHome():
+    global showCursor
     showCursor = 0
     ShowWallpaper()
     drawTaskbar()
@@ -116,6 +132,18 @@ def waitesc():
             key = pygame.key.get_pressed()
             if key[pygame.K_ESCAPE]:
                 return "esc"
+
+def Store2disk(data, line):
+    with open('s', 'r') as file:
+        datas = file.readlines()
+
+
+    datas[line-1] = str(data)
+
+    # and write everything back
+    with open('s', 'w') as file:
+        file.writelines( datas )
+
 
 def OpenCtx():
     close = 0
@@ -156,6 +184,7 @@ def OpenCtx():
                     if Action == "confirm":
                         global wallpaper
                         wallpaper = filenames[sel2]
+                        Store2disk(filenames[sel2], 1)
                         close = 1
             if sel == 1:
                 close = 1
@@ -221,8 +250,13 @@ while running:
             if showCursor == 1:
                 sense.set_pixel(round(pygame.mouse.get_pos()[0]/ds),round(pygame.mouse.get_pos()[1]/ds), [255,255,255])
         except:
-            print("out of range")
-            bluescreen("OOB")
+            #print("out of range")
+            oldmx = 0
+            oldmy = 0
+            oldcol = sense.get_pixel(0,0)
+            if showCursor == 1:
+                sense.set_pixel(0,0, [255,255,255])
+            #bluescreen("OOB")
         if pygame.mouse.get_pressed()[2]:
             if appOpen == 0 and ava == 0:
                 print("ctx")
