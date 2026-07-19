@@ -27,4 +27,4 @@ Text must finish scrolling before you confirm.
 Text may bug out, I can't seem to fix this.
 
 ## Error codes
-1: Mouse moved out of bounds (the mouse must stay inside of the window)
+1: Mouse moved out of bounds
