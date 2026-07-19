@@ -84,10 +84,15 @@ def ShowWallpaper():
             sense.set_pixel(i,o, pxcol)
 
 def drawTaskbar():
+     global oldcol
      for i in range(1):
           sense.set_pixel(i, 7, [255,204,170])
+          if round(pygame.mouse.get_pos()[0]/ds) == i and round(pygame.mouse.get_pos()[1]/ds) == 7:
+                oldcol = [255,204,170]
      for i in range(7):
           sense.set_pixel(i+1, 7, b)
+          if round(pygame.mouse.get_pos()[0]/ds) == i and round(pygame.mouse.get_pos()[1]/ds) == 7:
+                oldcol = b
 
 def BackHome():
     showCursor = 0
@@ -143,7 +148,7 @@ def OpenCtx():
                     sense.clear()
                     print(Action)
                     if Action == "down":
-                        if sel2 < len(filenames):
+                        if sel2 < len(filenames)-1:
                             sel2 = sel2 + 1
                     if Action == "up":
                         if sel2 > 0:
@@ -172,7 +177,7 @@ def appMenu():
         sense.clear()
         print(Action)
         if Action == "down":
-            if sel2 < len(filenames):
+            if sel2 < len(filenames)-1:
                 sel2 = sel2 + 1
         if Action == "up":
             if sel2 > 0:
