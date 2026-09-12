@@ -1,4 +1,4 @@
-from sense_emu import SenseHat
+from sense_hat import SenseHat
 import random
 from time import sleep
 import pygame
@@ -67,16 +67,22 @@ while running:
             if showCursor == 1:
                 sense.set_pixel(round(pygame.mouse.get_pos()[0]/ds),round(pygame.mouse.get_pos()[1]/ds), [107,0, 94])
         except:
-            print("out of range")
-            bluescreen("OOB")
+            oldmx = 0
+            oldmy = 0
+            oldcol = sense.get_pixel(0,0)
+            if showCursor == 1:
+                sense.set_pixel(0,0, [255,255,255])
 
         try:
             if pygame.mouse.get_pressed()[0] == True:
                 oldcol = col
                 #sense.set_pixel(round(pygame.mouse.get_pos()[0]/ds),round(pygame.mouse.get_pos()[1]/ds), col)
         except:
-            print("out of range")
-            bluescreen("OOB")
+            oldmx = 0
+            oldmy = 0
+            oldcol = sense.get_pixel(0,0)
+            if showCursor == 1:
+                sense.set_pixel(0,0, [255,255,255])
         if pygame.mouse.get_pressed()[1] == True:
             oldcol = [0, 0, 0]
             for o in range(8):
@@ -89,8 +95,13 @@ while running:
                 #sense.set_pixel(round(pygame.mouse.get_pos()[0]/ds), round(pygame.mouse.get_pos()[1]/ds), [0, 0, 0])
                 oldcol = [0, 0, 0]
             except:
-                print("out of range")
-                bluescreen("OOB")
+                #print("out of range")
+                oldmx = 0
+                oldmy = 0
+                oldcol = sense.get_pixel(0,0)
+                if showCursor == 1:
+                    sense.set_pixel(0,0, [255,255,255])
+                #bluescreen("OOB")
         if event.type == pygame.KEYDOWN:
               
             # checking if key "A" was pressed
@@ -141,4 +152,5 @@ while True:
             sense.set_pixel(i,o, rand)
     sleep(0.1)
 """
+
 
