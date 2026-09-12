@@ -1,4 +1,4 @@
-from sense_emu import SenseHat
+from sense_hat import SenseHat
 sense = SenseHat()
 
 temp = round(sense.get_temperature()*10)/10
