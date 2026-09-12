@@ -1,4 +1,4 @@
-from sense_emu import SenseHat
+from sense_hat import SenseHat
 import random
 from time import sleep
 import pygame
